@@ -1,8 +1,9 @@
--- ⚡ Full Effect Remover (Blox Fruits Optimizer)
+-- ⚡ Full Effect Remover + Fast Mode (Blox Fruits Optimizer)
 local lighting = game:GetService("Lighting")
 local workspace = game:GetService("Workspace")
 local players = game:GetService("Players")
 local localPlayer = players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- 1. Xóa hiệu ứng ánh sáng
 for _, v in pairs(lighting:GetChildren()) do
@@ -37,9 +38,16 @@ workspace.DescendantAdded:Connect(function(v)
     end
 end)
 
--- 5. Thông báo
+-- 5. Bật Fast Mode Blox Fruits
+local success, err = pcall(function()
+    if ReplicatedStorage:FindFirstChild("Remotes") and ReplicatedStorage.Remotes:FindFirstChild("CommF_") then
+        ReplicatedStorage.Remotes.CommF_:InvokeServer("Fast")
+    end
+end)
+
+-- 6. Thông báo
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Blox Fruits Optimizer",
-    Text = "❌ Toàn bộ hiệu ứng đã bị xóa!",
+    Text = "❌ Toàn bộ hiệu ứng đã bị xóa! 🚀 Fast Mode đã bật!",
     Duration = 5
 })
