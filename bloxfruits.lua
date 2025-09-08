@@ -159,7 +159,7 @@ for _, tool in ipairs(backpack:GetChildren()) do
     end
 end
 
--- Khi có trái mới thêm vào Backpack
+-- Khi có trái mới thêm vào Backpack (chỉ trigger khi cất vào)
 backpack.ChildAdded:Connect(function(child)
     if child:IsA("Tool") then
         local fruitName = child.Name
