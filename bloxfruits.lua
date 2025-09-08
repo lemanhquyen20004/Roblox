@@ -127,18 +127,18 @@ end
 -- Hàm gửi Discord Embed
 local function sendDiscordEmbed(username, currentFruits, newFruit)
     local embed = {
-        username = "Blox Fruits Notifier", -- tên hiển thị webhook
-        avatar_url = "https://i.pinimg.com/736x/4e/47/64/4e4764ff62ab6d422adc47ec4022b0e3.jpg", -- ảnh đại diện webhook
+        username = "Blox Fruits Notifier",
+        avatar_url = "https://i.pinimg.com/736x/4e/47/64/4e4764ff62ab6d422adc47ec4022b0e3.jpg",
         embeds = {{
             title = "🍍 Trái mới vừa nhận!",
             color = fruitColors[newFruit] or 0x00ff00,
             fields = {
                 {name = "👤 User", value = username, inline = false},
-                {name = "📦 Trái đang có", value = table.concat(currentFruits, ", ") or "Không có", inline = false},
+                {name = "📦 Trái đang có", value = table.concat(getCurrentFruits(), ", ") or "Không có", inline = false},
                 {name = "🎉 Trái mới nhận", value = newFruit, inline = false},
             },
-            image = { url = fruitImages[newFruit] or "" }, -- ảnh trái mới nhận
-            footer = {text = "Được giữ bởi Bot LeManhQuyen"}, -- bản quyền
+            ["image"] = { ["url"] = fruitImages[newFruit] or "" }, -- <--- sửa ở đây
+            footer = {text = "Được giữ bởi Bot LeManhQuyen"},
             timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
         }}
     }
@@ -152,21 +152,20 @@ local function sendDiscordEmbed(username, currentFruits, newFruit)
     })
 end
 
--- Check trái đã có từ trước khi script chạy
+-- Check trái đã có từ trước khi script chạy (chỉ lấy trái Blox Fruit)
 for _, tool in ipairs(backpack:GetChildren()) do
-    if tool:IsA("Tool") then
+    if tool:IsA("Tool") and fruitImages[tool.Name] then
         knownFruits[tool.Name] = true
     end
 end
 
--- Khi có trái mới thêm vào Backpack (chỉ trigger khi cất vào)
+-- Khi có trái mới thêm vào Backpack (chỉ trigger khi cất vào và là trái Blox Fruit)
 backpack.ChildAdded:Connect(function(child)
     if child:IsA("Tool") then
         local fruitName = child.Name
-        if not knownFruits[fruitName] then
+        if fruitImages[fruitName] and not knownFruits[fruitName] then
             knownFruits[fruitName] = true
-            local currentFruits = getCurrentFruits()
-            sendDiscordEmbed(player.Name, currentFruits, fruitName)
+            sendDiscordEmbed(player.Name, getCurrentFruits(), fruitName)
         end
     end
 end)
