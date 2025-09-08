@@ -1,5 +1,5 @@
 -- Discord Webhook
-local webhook = "https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN"
+local webhook = "https://discord.com/api/webhooks/1414651494690721822/1mOWJeNpiqvgOhrXBLRHSG31L9PRu43JwepIawot0lVUaIDblsK_ZSW4o58mUpbLKofX"
 
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
@@ -7,7 +7,7 @@ local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
 local StarterGui = game:GetService("StarterGui")
 
--- Thông báo script chạy thành công
+-- Thông báo script chạy thành công trong Roblox
 StarterGui:SetCore("SendNotification", {
     Title = "Blox Fruits Notifier",
     Text = "Script đã chạy thành công!",
@@ -127,7 +127,8 @@ end
 -- Hàm gửi Discord Embed
 local function sendDiscordEmbed(username, currentFruits, newFruit)
     local embed = {
-        username = "Blox Fruits Notifier",
+        username = "Blox Fruits Notifier", -- tên hiển thị webhook
+        avatar_url = "https://i.pinimg.com/736x/4e/47/64/4e4764ff62ab6d422adc47ec4022b0e3.jpg", -- ảnh đại diện webhook
         embeds = {{
             title = "🍍 Trái mới vừa nhận!",
             color = fruitColors[newFruit] or 0x00ff00,
@@ -136,7 +137,8 @@ local function sendDiscordEmbed(username, currentFruits, newFruit)
                 {name = "📦 Trái đang có", value = table.concat(currentFruits, ", ") or "Không có", inline = false},
                 {name = "🎉 Trái mới nhận", value = newFruit, inline = false},
             },
-            image = { url = fruitImages[newFruit] or "" },
+            image = { url = fruitImages[newFruit] or "" }, -- ảnh trái mới nhận
+            footer = {text = "Được giữ bởi Bot LeManhQuyen"}, -- bản quyền
             timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
         }}
     }
