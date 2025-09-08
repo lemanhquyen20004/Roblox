@@ -5,6 +5,14 @@ local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
+local StarterGui = game:GetService("StarterGui")
+
+-- Thông báo script chạy thành công
+StarterGui:SetCore("SendNotification", {
+    Title = "Blox Fruits Notifier",
+    Text = "Script đã chạy thành công!",
+    Duration = 5,
+})
 
 -- Lưu trái đã có
 local knownFruits = {}
@@ -121,7 +129,6 @@ local function sendDiscordEmbed(username, currentFruits, newFruit)
     local embed = {
         username = "Blox Fruits Notifier",
         embeds = {{
-
             title = "🍍 Trái mới vừa nhận!",
             color = fruitColors[newFruit] or 0x00ff00,
             fields = {
